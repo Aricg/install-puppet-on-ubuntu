@@ -17,10 +17,12 @@ GetRepo () {
 wget http://apt.puppetlabs.com/puppetlabs-release-$CODENAME.deb
 }
 
+GetRepo
+
 #Adds the offical repo and installs preferred version of puppet
 InstallPuppet () {
 dpkg -i puppetlabs-release-$CODENAME.deb
-apt-get update 2&>1 /dev/null
+apt-get update 
 apt-get -y --force-yes install puppet-common=2.7.19-1puppetlabs2 puppet=2.7.19-1puppetlabs2
 sed -e s,no,yes,g -i /etc/default/puppet
 }
@@ -38,12 +40,12 @@ if  [[ -z $(which puppet || true) ]]
         then
                 echo "Repo downloaded and puppet not yet installed.. installing Puppet"
 #This calls the two defined actions above
-                GetRepo
                 InstallPuppet
         else
                 echo "puppet already installed, aborting"
         exit 1
 fi
+
 
 #Config Section
 cat > /etc/puppet/puppet.conf <<DELIM
