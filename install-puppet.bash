@@ -73,7 +73,6 @@ ssl_client_verify_header = SSL_CLIENT_VERIFY
  
 [agent]
 report = true
-environment = default
 pluginsync=true
 waitforcert = 120
 environment="$ENVIRONMENT"
