@@ -1,6 +1,6 @@
 #!/bin/bash
 CODENAME="$(cat /etc/lsb-release | grep CODENAME | cut -d'=' -f 2)"
-PUPPETMASTER="$0"
+PUPPETMASTER="$1"
 ENVIRONMENT="development"
 SYSINFO="$(cat /proc/version)"
 
@@ -14,7 +14,7 @@ fi
 
 if [ "$1" = "" ]
 	then
-		echo "usage: "$0" puppet masters fqdn"
+		echo "usage: "$1" puppet masters fqdn"
 		echo
 	exit 1
 fi
