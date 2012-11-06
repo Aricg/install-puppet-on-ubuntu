@@ -1,33 +1,41 @@
 #!/bin/bash
-CODENAME=$(cat /etc/lsb-release | grep CODENAME | cut -d'=' -f 2)
-PUPPETMASTER="puppetmaster.foocorp.local"
+CODENAME="$(cat /etc/lsb-release | grep CODENAME | cut -d'=' -f 2)"
+PUPPETMASTER="$0"
 ENVIRONMENT="development"
-SYSINFO=$(cat /proc/version)
+SYSINFO="$(cat /proc/version)"
 
 if [[ "$SYSINFO" =~ "Ubuntu" ]]
-then
-      echo "Ubuntu Detected, Proceeding"
-else
-      echo "Unexpected OS exiting"
-      exit 1
+	then
+	      echo "Ubuntu Detected, Proceeding"
+	else
+	      echo "Unexpected OS exiting"
+	      exit 1
 fi
+
+if [ "$1" = "" ]
+	then
+		echo "usage: "$0" puppet masters fqdn"
+		echo
+	exit 1
+fi
+
 
 #everything depends on this being downloaded.
 GetRepo () {
-wget http://apt.puppetlabs.com/puppetlabs-release-$CODENAME.deb
+wget http://apt.puppetlabs.com/puppetlabs-release-"$CODENAME".deb
 }
 
-GetRepo
+GetRepo "$CODENAME"
 
 #Adds the offical repo and installs preferred version of puppet
 InstallPuppet () {
-dpkg -i puppetlabs-release-$CODENAME.deb
+dpkg -i puppetlabs-release-"$CODENAME".deb
 apt-get update 
 apt-get -y --force-yes install puppet-common=2.7.19-1puppetlabs2 puppet=2.7.19-1puppetlabs2
 sed -e s,no,yes,g -i /etc/default/puppet
 }
 
-if [ -e "puppetlabs-release-$CODENAME.deb" ];
+if [ -e "puppetlabs-release-"$CODENAME".deb" ];
     then
         echo "repo sucsessfully downloaded"
     else
@@ -40,7 +48,7 @@ if  [[ -z $(which puppet || true) ]]
         then
                 echo "Repo downloaded and puppet not yet installed.. installing Puppet"
 #This calls the two defined actions above
-                InstallPuppet
+                InstallPuppet "$CODENAME"
         else
                 echo "puppet already installed, aborting"
         exit 1
@@ -50,7 +58,7 @@ fi
 #Config Section
 cat > /etc/puppet/puppet.conf <<DELIM
 [main]
-server=$PUPPETMASTER
+server="$PUPPETMASTER"
 logdir=/var/log/puppet
 vardir=/var/lib/puppet
 ssldir=/var/lib/puppet/ssl
@@ -68,18 +76,18 @@ report = true
 environment = default
 pluginsync=true
 waitforcert = 120
-environment=$ENVIRONMENT
+environment="$ENVIRONMENT"
 DELIM
 
 cat > /etc/puppet/namespaceauth.conf <<DELIM
 [puppetrunner]
-allow $PUPPETMASTER
+allow "$PUPPETMASTER"
 DELIM
 
 cat > /etc/puppet/auth.conf <<DELIM
 path /run
 method save
-allow $PUPPETMASTER
+allow "$PUPPETMASTER"
 DELIM
 
 /etc/init.d/puppet start
