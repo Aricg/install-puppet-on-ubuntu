@@ -1,13 +1,16 @@
 Install
 -------
-Its a script just look at it carefully before you run it. 
-Edit install-puppet.sh and change the variables defined at the start of the script
+It's a script just look at it before you run it. 
+
+Usage
+-----
+bash install-puppet-on-ubuntu.sh puppet.master.fqdn
 
 License                                                                                                                                                                                                                                      
 ------                                                                                                                                                                                                                                       
-FreeTard Version 4.3 (please dont look that up its made up)
+FreeTard Version 0.1 (please dont look that up)
                                                                                                                                                                                                                                              
 Support                                                                                                                                                                                                                                      
 -------     
-Nope.
+Can be found at your local bar.
 
