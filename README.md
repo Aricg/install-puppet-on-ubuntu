@@ -4,7 +4,7 @@ It's a script just look at it before you run it.
 
 Usage
 -----
-bash install-puppet-on-ubuntu.sh puppet.master.fqdn
+./install-puppet-on-ubuntu.sh puppet.master.fqdn
 
 License                                                                                                                                                                                                                                      
 ------                                                                                                                                                                                                                                       
