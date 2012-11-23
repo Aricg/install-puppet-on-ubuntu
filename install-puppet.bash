@@ -15,7 +15,6 @@ fi
 if [ "$1" = "" ]
 	then
 		echo "usage: "$0" puppet masters fqdn"
-		echo
 	exit 1
 fi
 
