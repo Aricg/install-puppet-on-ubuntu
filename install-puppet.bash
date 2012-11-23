@@ -44,7 +44,7 @@ if [ -e "puppetlabs-release-"$CODENAME".deb" ];
 fi
 
 
-if  [[ -z $(which puppet || true) ]]
+if  ! [[ "$(which puppet)" ]]
         then
                 echo "Repo downloaded and puppet not yet installed.. installing Puppet"
 #This calls the two defined actions above
