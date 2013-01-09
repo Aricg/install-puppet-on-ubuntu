@@ -15,7 +15,7 @@ fi
 if [ "$1" = "" ] || [ "$1" = "-h" ] || [ "$1" = "-help" ] || [ "$1" = "--help" ] ;
 	then
 		echo "usage: "$0" puppet masters fqdn"
-	exit 1
+	exit 0
 fi
 
 
